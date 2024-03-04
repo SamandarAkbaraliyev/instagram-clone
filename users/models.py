@@ -26,6 +26,8 @@ class User(AbstractUser):
     blocked_accounts = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True,
                                          related_name='blockeds')
 
+    saved_posts = models.ForeignKey('post.Post', on_delete=models.CASCADE, null=True, blank=True)
+
     is_private = models.BooleanField(default=False)
 
     photo = models.ImageField(upload_to='profile/photos/', null=True)
