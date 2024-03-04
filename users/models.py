@@ -21,10 +21,12 @@ class User(AbstractUser):
     bio = models.TextField(null=True)
     gender = models.CharField(max_length=64, choices=Gender.choices, default=Gender.NOT_SAY)
 
-    muted_accounts = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='muted')
-    close_friends = models.ForeignKey('self', on_delete=models.CASCADE, related_name='closes', null=True, blank=True)
-    blocked_accounts = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True,
-                                         related_name='blockeds')
+    following = models.ManyToManyField('self', symmetrical=False, blank=True, related_name='follower_users')
+    followers = models.ManyToManyField('self', symmetrical=False, blank=True, related_name='following_users')
+
+    muted_accounts = models.ManyToManyField('self', symmetrical=False, blank=True, related_name='muting')
+    close_friends = models.ManyToManyField('self', symmetrical=False, related_name='friends_of', blank=True)
+    blocked_accounts = models.ManyToManyField('self', symmetrical=False, blank=True, related_name='blocking')
 
     saved_posts = models.ForeignKey('post.Post', on_delete=models.CASCADE, null=True, blank=True)
 
