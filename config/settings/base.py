@@ -58,6 +58,8 @@ WSGI_APPLICATION = "config.wsgi.application"
 # APPS
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
+    # 'channels',
+    # 'daphne',
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -67,6 +69,7 @@ DJANGO_APPS = [
     # "django.contrib.humanize", # Handy template tags
     "django.contrib.admin",
     "django.forms",
+
 ]
 THIRD_PARTY_APPS = [
     "crispy_forms",
@@ -83,7 +86,8 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "users",
-    # Your stuff: custom apps go here
+    'chat',
+    'post',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

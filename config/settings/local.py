@@ -1,12 +1,11 @@
 from .base import *  # noqa
-from .base import env
-
+import os
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-SECRET_KEY = env(
+SECRET_KEY = os.getenv(
     "DJANGO_SECRET_KEY",
     default="gncLEwgkQqcV9WlCfUlA6untV45E5mioC0ApwMBGgRNmgv2Hnnhrnjs4sMEbcfWT",
 )
@@ -26,7 +25,7 @@ CACHES = {
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-host
-EMAIL_HOST = env("EMAIL_HOST", default="mailpit")
+EMAIL_HOST = os.getenv("EMAIL_HOST", default="mailpit")
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-port
 EMAIL_PORT = 1025
 
@@ -49,7 +48,7 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#internal-ips
 INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
-if env("USE_DOCKER", default="no") == "yes":
+if os.getenv("USE_DOCKER", default="no") == "yes":
     import socket
 
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
@@ -69,7 +68,11 @@ CELERY_TASK_EAGER_PROPAGATES = True
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",  # noqa
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": os.getenv('POSTGRES_DB'),  # noqa
+        "USER": os.getenv('POSTGRES_USER'),  # noqa
+        "PASSWORD": os.getenv('POSTGRES_PASSWORD'),  # noqa
+        "HOST": os.getenv('POSTGRES_HOST'),  # noqa
+        "PORT": os.getenv('POSTGRES_PORT'),  # noqa
     }
 }
